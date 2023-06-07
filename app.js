@@ -40,14 +40,33 @@ var financeController = (function () {
       exp: 0,
     },
   };
+
+  return {
+    addItem: function (type, desc, val) {
+      var item, id;
+      if (data.allItems[type].length === 0) id = 1;
+      else {
+        id = data.allItems[type][allItems[type] - 1].id + 1;
+      }
+      if (type === "inc") {
+        item = new Income(id, desc, val);
+      } else {
+        item = new Expense(id, desc, val);
+      }
+      data.allItems[type].push(item);
+    },
+    seeData: function () {
+      return data;
+    },
+  };
 })();
 
 var appController = (function (uiCtrl, fnCtrl) {
   var ctrlAddItem = function () {
     // 1.Оруулах өгөгдлийг дэлгэцээс олж авах
-    console.log(uiController.getInput());
+    var input = uiController.getInput();
     // 2.Олж авсан өгөгдлүүдээ санхүүгийн контролерт дамжуулж тэнд хадгалах
-
+    financeController.addItem(input.type, input.description, input.value);
     // 3.Өгөгдлүүдээ веб дээрээ тохирох хэсэгт гаргах
 
     // 4.Төсвийг тооцоолно
