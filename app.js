@@ -1,4 +1,3 @@
-// Ð”ÑÐ»Ð³ÑÑ†Ñ‚ÑÐ¹ Ð°Ð¶Ð¸Ð»Ð»Ð°Ñ… ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€
 var uiController = (function () {
   var DOMstrings = {
     inputType: ".add__type",
@@ -61,7 +60,7 @@ var uiController = (function () {
     },
 
     addListItem: function (item, type) {
-      // ÐžÑ€Ð»Ð¾Ð³Ð¾ Ð·Ð°Ñ€Ð»Ð°Ð³Ñ‹Ð½ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¸Ð¹Ð³ Ð°Ð³ÑƒÑƒÐ»ÑÐ°Ð½ html-Ð¸Ð¹Ð³ Ð±ÑÐ»Ñ‚Ð³ÑÐ½Ñ.
+      //  Орлого зарлагын элементийг агуулсан html-ийг бэлтгэнэ.
       var html, list;
       if (type === "inc") {
         list = DOMstrings.incomeList;
@@ -72,27 +71,24 @@ var uiController = (function () {
         html =
           '<div class="item clearfix" id="expense-%id%"><div class="item__description">$$DESCRIPTION$$</div>          <div class="right clearfix"><div class="item__value">$$VALUE$$</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn">                <i class="ion-ios-close-outline"></i></button></div></div></div>';
       }
-      // Ð¢ÑÑ€ HTML Ð´Ð¾Ñ‚Ñ€Ð¾Ð¾ Ð¾Ñ€Ð»Ð¾Ð³Ð¾ Ð·Ð°Ñ€Ð»Ð°Ð³Ñ‹Ð½ ÑƒÑ‚Ð³ÑƒÑƒÐ´Ñ‹Ð³ REPLACE Ð°ÑˆÐ¸Ð³Ð»Ð°Ð¶ Ó©Ó©Ñ€Ñ‡Ð¸Ð»Ð¶
+      // html дотроо орлого зарлагын утгуудыг REPLACE ашиглаж өөрчилж өгнө.
       html = html.replace("%id%", item.id);
       html = html.replace("$$DESCRIPTION$$", item.description);
       html = html.replace("$$VALUE$$", item.value);
 
-      // Ð‘ÑÐ»Ñ‚Ð³ÑÑÑÐ½ HTML ÑÑ DOM Ñ€ÑƒÑƒ Ñ…Ð¸Ð¹Ð¶ Ó©Ð³Ð½Ó©.
+      // Бэлтгэсэн html-ээ DOM-руу хийнэ.
       document.querySelector(list).insertAdjacentHTML("beforeend", html);
     },
   };
 })();
 
-// Ð¡Ð°Ð½Ñ…Ò¯Ò¯Ñ‚ÑÐ¹ Ð°Ð¶Ð¸Ð»Ð»Ð°Ñ… ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€
 var financeController = (function () {
-  // private data
   var Income = function (id, description, value) {
     this.id = id;
     this.description = description;
     this.value = value;
   };
 
-  // private data
   var Expense = function (id, description, value) {
     this.id = id;
     this.description = description;
@@ -106,7 +102,6 @@ var financeController = (function () {
     data.totals[type] = sum;
   };
 
-  // private data
   var data = {
     items: {
       inc: [],
@@ -174,26 +169,26 @@ var financeController = (function () {
 
 var appController = (function (uiController, financeController) {
   var ctrlAddItem = function () {
-    // 1. ÐžÑ€ÑƒÑƒÐ»Ð°Ñ… Ó©Ð³Ó©Ð³Ð´Ð»Ð¸Ð¹Ð³ Ð´ÑÐ»Ð³ÑÑ†ÑÑÑ Ð¾Ð»Ð¶ Ð°Ð²Ð½Ð°.
+    // 1.Оруулах өгөгдлийг дэлгэцээс олж авах
     var input = uiController.getInput();
 
     if (input.description !== "" && input.value !== "") {
-      // 2. ÐžÐ»Ð¶ Ð°Ð²ÑÐ°Ð½ Ó©Ð³Ó©Ð³Ð´Ð»Ò¯Ò¯Ð´ÑÑ ÑÐ°Ð½Ñ…Ò¯Ò¯Ð³Ð¸Ð¹Ð½ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ñ‚ Ð´Ð°Ð¼Ð¶ÑƒÑƒÐ»Ð¶ Ñ‚ÑÐ½Ð´ Ñ…Ð°Ð´Ð³Ð°Ð»Ð½Ð°.
+      //2.Олж авсан өгөгдлүүдээ санхүүгийн контролерт дамжуулж тэнд хадгалах
       var item = financeController.addItem(
         input.type,
         input.description,
         input.value
       );
 
-      // 3. ÐžÐ»Ð¶ Ð°Ð²ÑÐ°Ð½ Ó©Ð³Ó©Ð³Ð´Ð»Ò¯Ò¯Ð´ÑÑ Ð²ÑÐ± Ð´ÑÑÑ€ÑÑ Ñ‚Ð¾Ñ…Ð¸Ñ€Ð¾Ñ… Ñ…ÑÑÑÐ³Ñ‚ Ð½ÑŒ Ð³Ð°Ñ€Ð³Ð°Ð½Ð°
+      // 3.Өгөгдлүүдээ веб дээрээ тохирох хэсэгт гаргах
       uiController.addListItem(item, input.type);
       uiController.clearFields();
 
-      // 4. Ð¢Ó©ÑÐ²Ð¸Ð¹Ð³ Ñ‚Ð¾Ð¾Ñ†Ð¾Ð¾Ð»Ð½Ð¾
+      // 4.Төсвийг тооцоолно
       financeController.tusuvtootsooloh();
-      // 5. Ð­Ñ†ÑÐ¸Ð¹Ð½ Ò¯Ð»Ð´ÑÐ³Ð´ÑÐ», Ñ‚Ð¾Ð¾Ñ†Ð¾Ð¾Ð³ Ð´ÑÐ»Ð³ÑÑ†ÑÐ½Ð´ Ð³Ð°Ñ€Ð³Ð°Ð½Ð°.
+      // 5.Эцсийн үлдэгдэл,тооцоог дэлгэцэнд гаргана
       var tusuv = financeController.tusviigAvah();
-      //   6.Төсвийн тооцоог дэлгэцэнд гаргана.
+      // 6.Төсвийн тооцоог дэлгэцэнд гаргана.
       uiController.tusviigUzuuleh(tusuv);
       console.log(tusuv);
     }
